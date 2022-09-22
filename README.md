@@ -11,6 +11,13 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+### Details About Project
+
+1.To run the project write command "npm run start"
+2.On the seacrh page , when user write user name , they get the details of git hub users
+3.When user click on the button "Show Repository" they will get all the repository of the user.
+4.On the History tab user get all the history of the user which get search and its data is save on lacalstorage not remove when page load.
+
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 

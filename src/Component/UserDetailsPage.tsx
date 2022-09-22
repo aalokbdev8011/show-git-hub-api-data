@@ -24,7 +24,6 @@ const UserDetailsPage: FunctionComponent<propsType> = (props) => {
             catch (err) {
                 console.log(err)
             }
-
     }
 
     return (
@@ -94,13 +93,9 @@ const UserDetailsPage: FunctionComponent<propsType> = (props) => {
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
-
         </>
     )
 }
 export default UserDetailsPage;
-
-

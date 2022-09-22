@@ -1,13 +1,14 @@
 import axios from "axios";
 import { FunctionComponent, useContext, useState } from "react";
+import { Alert } from "react-bootstrap";
 import { ContextData } from "../@contextAPI";
 import { ContextType, GitData } from "../type";
 import UserDetailsPage from "./UserDetailsPage";
 
-
 const SearchPage: FunctionComponent = (props) => {
     const [gitData, setGitData] = useState<GitData | undefined>();
     const [query, setQuery] = useState<string>("");
+    const [error, setErrorMsg] = useState(false)
     const { setQueryData, queryData } = useContext(ContextData) as ContextType;
 
     const handleSerach = async () => {
@@ -20,6 +21,10 @@ const SearchPage: FunctionComponent = (props) => {
             setGitData(data);
 
         } catch (err) {
+            setErrorMsg(true)
+            setTimeout(() => {
+                setErrorMsg(false)
+            }, 2000);
             console.log(err);
         }
     };
@@ -43,6 +48,11 @@ const SearchPage: FunctionComponent = (props) => {
                     />
                     <button className="btn btn-secondary ms-2" onClick={handleSerach}>Search</button>
                 </div>
+                {
+                    error &&
+                    <Alert key={"danger"} variant={"danger"} className="mx-auto" style={{ width: '420px' }}>
+                        User Not Found
+                    </Alert>}
             </div >
             <UserDetailsPage data={gitData} />
         </>

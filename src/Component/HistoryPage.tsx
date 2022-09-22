@@ -3,8 +3,6 @@ import { Table } from 'react-bootstrap';
 import { ContextData } from '../@contextAPI';
 import { ContextType } from '../type';
 
-
-
 const HistoryPage: FunctionComponent = (props) => {
   const { queryData } = useContext(ContextData) as ContextType;
   return (
@@ -28,5 +26,4 @@ const HistoryPage: FunctionComponent = (props) => {
     </>
   )
 }
-
 export default HistoryPage

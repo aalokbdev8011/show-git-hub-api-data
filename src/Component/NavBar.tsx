@@ -1,9 +1,7 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-
 function NavBar() {
-
     return (
         <Navbar bg="dark" expand="lg">
             <Container className='mx-2'>
@@ -19,5 +17,4 @@ function NavBar() {
         </Navbar>
     )
 }
-
 export default NavBar

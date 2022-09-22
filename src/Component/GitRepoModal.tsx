@@ -1,10 +1,9 @@
 import axios from 'axios';
-import React, { FunctionComponent, useContext, useEffect } from 'react'
+import { FunctionComponent, useContext, useEffect } from 'react'
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContextData } from '../@contextAPI';
 import { ContextType, Repos } from '../type';
-
 
 const GitRepoModal: FunctionComponent = () => {
     const navgiation = useNavigate()
@@ -45,8 +44,6 @@ const GitRepoModal: FunctionComponent = () => {
                 </Row>
             </Container>
         </>
-
     )
 }
-
 export default GitRepoModal
