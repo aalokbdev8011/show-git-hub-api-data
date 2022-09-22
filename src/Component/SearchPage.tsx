@@ -1,53 +1,50 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { GitData } from "../type";
-import HistoryPage from "./UserDetailsPage";
+import { FunctionComponent, useContext, useState } from "react";
+import { ContextData } from "../@contextAPI";
+import { ContextType, GitData } from "../type";
+import UserDetailsPage from "./UserDetailsPage";
 
-const SearchPage = () => {
+
+const SearchPage: FunctionComponent = (props) => {
     const [gitData, setGitData] = useState<GitData | undefined>();
-    const [query, setQuery] = useState<String>("");
+    const [query, setQuery] = useState<string>("");
+    const { setQueryData, queryData } = useContext(ContextData) as ContextType;
 
     const handleSerach = async () => {
+        let searchValue = [...queryData]
+        searchValue.push(query)
+        localStorage.setItem("set-search", JSON.stringify(searchValue))
+        setQueryData(searchValue)
         try {
             const { data } = await axios.get(`/users/${query}`);
             setGitData(data);
+
         } catch (err) {
             console.log(err);
         }
     };
     const handleQuery = (e: any) => {
         setQuery(e.target.value);
-        localStorage.setItem("userName", e.target.value.toString())
     }
     return (
         <>
-            <div className="header py-3">
-                <div className="row mx-0 align-items-center justify-content-end">
-                    <div className="col-12 col-sm-5 col-lg-4">
-                        <h2>Git Hub Search URL</h2>
-                    </div>
-                    <div className="col-12 col-md-4">
-                        <Link
-                            className="d-flex align-items-center mx-auto me-sm-0 justify-content-center justify-content-md-end bg-primary text-white link-hs"
-                            to="history"
-                        >
-                            History
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div className="search">
+            <div className="search-header-div">
+                <h2>
+                    <span className="text-danger">Search</span>
+                    &nbsp;<span>GitHub</span>
+                    &nbsp;<span className="text-primary">User</span>
+                </h2>
+                <div className='title-text'></div>
+                <div className="search d-flex justify-content-center mt-3">
                     <input
                         type="text"
                         placeholder="Search"
                         onChange={handleQuery}
                     />
-                    <button onClick={handleSerach}>Search</button>
+                    <button className="btn btn-secondary ms-2" onClick={handleSerach}>Search</button>
                 </div>
-            </div>
-            <HistoryPage data={gitData} />
+            </div >
+            <UserDetailsPage data={gitData} />
         </>
     );
 };

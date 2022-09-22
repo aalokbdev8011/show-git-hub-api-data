@@ -1,42 +1,43 @@
 import axios from 'axios';
-import React, { useState, FunctionComponent } from 'react'
-import { Button, Card, Modal, Spinner } from 'react-bootstrap';
-import { GitData, Owner, Repos } from '../type';
-import GitRepoModal from './GitRepoModal';
+import { FunctionComponent, useContext } from 'react'
+import { Button, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { ContextData } from '../@contextAPI';
+import { ContextType, GitData } from '../type';
 
 interface propsType {
     data: GitData | undefined
 }
 
-const HistoryPage: FunctionComponent<propsType> = (props) => {
+const UserDetailsPage: FunctionComponent<propsType> = (props) => {
     const { data } = props;
-    const [show, setShow] = useState(true);
-    const [repoData, setRepoData] = useState<Repos[]>()
-
-    const modalHandle = () => setShow(!show);
+    const navigate = useNavigate()
+    const { setRepoData } = useContext(ContextData) as ContextType;
 
     const handleFetchRepo = async (url?: string) => {
-        modalHandle()
         if (url)
             try {
                 const { data } = await axios.get(url)
                 setRepoData(data)
+                navigate(`/repos/${url.split("https://api.github.com/users/")[1]}`)
             }
             catch (err) {
                 console.log(err)
             }
 
     }
-    console.log("hello data", data)
+
     return (
         <>
-            {show ? <div className='container'>
+            <div className='container'>
                 <div className='row mx-0 my-4'>
 
                     {data &&
                         <div className='col-md-12 col-lg-10 col-xl-8 mb-4 mx-auto'>
                             <div className='card text-center shadow p-4'>
                                 <div>
+                                    <Card.Title className=''>User Information Details</Card.Title>
+                                    <div className='title-text'></div>
                                     <Card.Img variant="top" src={data?.avatar_url} className="rounded-circle mb-3 w-25 h-25" />
                                     <Card.Body>
                                         <div className='d-flex justify-content-center'>
@@ -87,7 +88,7 @@ const HistoryPage: FunctionComponent<propsType> = (props) => {
                                                 </Card.Text>
                                             </div>
                                         </div>
-                                        <Button variant="primary" className='mt-2' onClick={() => handleFetchRepo(data?.repos_url)}>Show Repository</Button>
+                                        <Button variant="secondary" className='mt-2' onClick={() => handleFetchRepo(data?.repos_url)}>Show Repository</Button>
                                     </Card.Body>
                                 </div>
                             </div>
@@ -96,11 +97,10 @@ const HistoryPage: FunctionComponent<propsType> = (props) => {
 
                 </div>
             </div>
-                :
-                <GitRepoModal handleClose={modalHandle} repoData={repoData} />}
+
         </>
     )
 }
-export default HistoryPage;
+export default UserDetailsPage;
 
 

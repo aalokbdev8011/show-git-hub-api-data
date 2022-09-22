@@ -1,17 +1,36 @@
-import React, { FunctionComponent } from 'react'
-import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap'
-import { Repos } from '../type';
+import axios from 'axios';
+import React, { FunctionComponent, useContext, useEffect } from 'react'
+import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom';
+import { ContextData } from '../@contextAPI';
+import { ContextType, Repos } from '../type';
 
-interface propsType {
-    handleClose: () => void;
-    repoData?: Repos[];
-}
 
-const GitRepoModal: FunctionComponent<propsType> = (props) => {
-    const { handleClose, repoData } = props;
+const GitRepoModal: FunctionComponent = () => {
+    const navgiation = useNavigate()
+    const params = useParams()
+    const { repoData, setRepoData } = useContext(ContextData) as ContextType;
+    const handleBack = () => {
+        navgiation("/")
+    }
+    const getAPi = async () => {
+        try {
+            const { data } = await axios.get(`/users/${params?.url}/repos`)
+            setRepoData(data)
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    useEffect(() => {
+        if (repoData?.length === 0) {
+            getAPi()
+        }
+    }, [repoData])
+
     return (
         <>
-            <Button onClick={handleClose} className="px-4 mb-3">back</Button>
+            <Button onClick={handleBack} className="btn btn-secondary backBtn mt-3 px-4 mb-3">Go Back</Button>
             <Container>
                 <Row>
                     {repoData?.map((data: Repos) => (

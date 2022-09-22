@@ -41,3 +41,10 @@ export type Repos = {
     description: string;
     html_url: string
 }
+
+export type ContextType = {
+    queryData: string[],
+    repoData: Repos[]
+    setRepoData: (data: Repos[]) => void;
+    setQueryData: (queryData: string[]) => void,
+};
